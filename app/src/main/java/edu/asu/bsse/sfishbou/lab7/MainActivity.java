@@ -28,17 +28,20 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings:
+            case R.id.action_addPlace:
                 // User chose the "Settings" item, show the app settings UI...
-                android.util.Log.d(this.getClass().getSimpleName(), "Setting clicked");
+                android.util.Log.d(this.getClass().getSimpleName(), "Add clicked");
                 return true;
 
-            case R.id.action_favorite:
+            case R.id.action_modifyPlace:
                 // User chose the "Favorite" action, mark the current item
                 // as a favorite...
-                android.util.Log.d(this.getClass().getSimpleName(), "Fav clicked");
+                android.util.Log.d(this.getClass().getSimpleName(), "Modify clicked");
                 return true;
 
+            case R.id.action_deletePlace:
+                android.util.Log.d(this.getClass().getSimpleName(), "Delete clicked");
+                return true;
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
