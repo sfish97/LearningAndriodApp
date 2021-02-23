@@ -5,5 +5,4 @@
     <string name="action_addPlace">Add Place</string>
     <string name="action_modifyPlace">Modify Place</string>
     <string name="action_deletePlace">Delete Place</string>
-    <string name="action_settings">Settings</string>
 </resources>
