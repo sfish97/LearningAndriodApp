@@ -7,14 +7,39 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity{
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+
+    private Spinner places_Spinner;
+    private ArrayList<String> placesList;
+    private String selectedPlace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        placesList = new ArrayList<String>();
+
+        //DELETE THIS
+        placesList.add("ASU WEST");
+        placesList.add("POLY");
+        // DELETE THIS
+
+        //Places Spinner Initialization
+        places_Spinner = (Spinner) findViewById(R.id.places_Spinner);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, placesList);
+        places_Spinner.setAdapter(adapter);
+        places_Spinner.setOnItemSelectedListener(this);
+
     }
 
     @Override
@@ -48,6 +73,21 @@ public class MainActivity extends AppCompatActivity{
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    // AdapterView.OnItemSelectedListener method. Called when spinner selection Changes
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        selectedPlace = places_Spinner.getSelectedItem().toString();
+        android.util.Log.d(this.getClass().getSimpleName(),"Spinner item "+
+                places_Spinner.getSelectedItem().toString() + " selected.");
+    }
+
+    // AdapterView.OnItemSelectedListener method. Called when spinner selection Changes
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        android.util.Log.d(this.getClass().getSimpleName(),"In onNothingSelected: No item selected");
+
     }
 
 }
