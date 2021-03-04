@@ -28,6 +28,7 @@ public class AddModifyPlaceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_modify_place);
 
         Intent intent = getIntent();
+        type = intent.getExtras().getBoolean("TYPE");
 
         name = (EditText)findViewById(R.id.name_EditTextBox);
         description = (EditText)findViewById(R.id.description_EditTextBox);
@@ -39,11 +40,13 @@ public class AddModifyPlaceActivity extends AppCompatActivity {
         longitude = (EditText)findViewById(R.id.longitude_EditTextBox);
         mainButton = (Button)findViewById(R.id.mainButton);
 
-        if(intent.getExtras().getBoolean("TYPE")){ //Adding a place, set the button text
+        if(type){ //Adding
             mainButton.setText("Add Place");
         }
-        else{
+        else{  //Modify, disable the Name so it can't be changed
             mainButton.setText("Modify Place");
+            name.setText(intent.getExtras().getString("SELECTED_PLACE"));
+            name.setEnabled(false);
         }
 
     }

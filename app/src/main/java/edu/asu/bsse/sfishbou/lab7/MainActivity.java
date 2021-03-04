@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         places_Spinner = (Spinner) findViewById(R.id.places_Spinner);
         placesList = new ArrayList<String>();
-        
+
         init();
     }
 
@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 type = false;
                 Intent modifyIntent = new Intent(this, AddModifyPlaceActivity.class);
                 modifyIntent.putExtra("TYPE", type);
+                modifyIntent.putExtra("SELECTED_PLACE", selectedPlace);
                 startActivity(modifyIntent);
 
                 return true;
