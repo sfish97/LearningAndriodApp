@@ -7,60 +7,6 @@
     tools:context=".AddModifyPlaceActivity">
 
     <EditText
-        android:id="@+id/longitude_EditTextBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:ems="10"
-        android:hint="@string/longitudeHintText"
-        android:inputType="textPersonName"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/longitudeLabel"
-        app:layout_constraintTop_toBottomOf="@+id/latitude_EditTextBox" />
-
-    <EditText
-        android:id="@+id/latitude_EditTextBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:ems="10"
-        android:hint="@string/latitudeHintText"
-        android:inputType="textPersonName"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/latitudeLabel"
-        app:layout_constraintTop_toBottomOf="@+id/elevation_EditTextBox" />
-
-    <EditText
-        android:id="@+id/elevation_EditTextBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:ems="10"
-        android:hint="@string/elevationHintText"
-        android:inputType="textPersonName"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/elevationLabel"
-        app:layout_constraintTop_toBottomOf="@+id/addressStreet_EditTextBox" />
-
-    <EditText
         android:id="@+id/addressTitle_EditTextBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -257,5 +203,57 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/elevation_EditTextBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:ems="10"
+        android:hint="@string/elevationHintText"
+        android:inputType="numberSigned|numberDecimal"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/elevationLabel"
+        app:layout_constraintTop_toBottomOf="@+id/addressStreet_EditTextBox" />
+
+    <EditText
+        android:id="@+id/latitude_EditTextBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:ems="10"
+        android:hint="@string/latitudeHintText"
+        android:inputType="numberSigned|numberDecimal"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/latitudeLabel"
+        app:layout_constraintTop_toBottomOf="@+id/elevation_EditTextBox" />
+
+    <EditText
+        android:id="@+id/longitude_EditTextBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:ems="10"
+        android:hint="@string/longitudeHintText"
+        android:inputType="numberSigned|numberDecimal"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/longitudeLabel"
+        app:layout_constraintTop_toBottomOf="@+id/latitude_EditTextBox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
