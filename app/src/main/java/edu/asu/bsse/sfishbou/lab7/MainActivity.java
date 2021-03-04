@@ -3,6 +3,7 @@ package edu.asu.bsse.sfishbou.lab7;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case R.id.action_addPlace:
                 // User chose the "Settings" item, show the app settings UI...
                 android.util.Log.d(this.getClass().getSimpleName(), "Add clicked");
+                PlacesDB db = new PlacesDB((Context)this);
                 return true;
 
             case R.id.action_modifyPlace:
