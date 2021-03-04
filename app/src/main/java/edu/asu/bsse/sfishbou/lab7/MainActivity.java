@@ -2,7 +2,6 @@ package edu.asu.bsse.sfishbou.lab7;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,7 +14,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -71,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case R.id.action_addPlace:
                 // User chose the "Settings" item, show the app settings UI...
                 android.util.Log.d(this.getClass().getSimpleName(), "Add clicked");
-                Intent intent = new Intent(this, AddPlaceActivity.class);
+                Intent intent = new Intent(this, AddModifyPlaceActivity.class);
                 startActivity(intent);
                 return true;
 

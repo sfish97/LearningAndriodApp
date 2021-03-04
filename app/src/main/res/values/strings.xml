@@ -9,4 +9,32 @@
     <string name="action_modifyPlace">Modify Place</string>
     <string name="action_deletePlace">Delete Place</string>
 
+    <!-- Add/Modify Place Activity Strings -->
+    <string name="nameLabel">Name:</string>
+    <string name="nameHintText">Enter a Place Name</string>
+
+    <string name="descriptionLabel">Description:</string>
+    <string name="descriptionHintText">Enter Description</string>
+
+    <string name="categoryLabel">Category:</string>
+    <string name="categoryHintText">Enter a Category</string>
+
+    <string name="addressTitleLabel">Address Title:</string>
+    <string name="addressTitleHintText">Enter Address Title</string>
+
+    <string name="addressStreetLabel">Address Street:</string>
+    <string name="addressStreetHintText">Enter Address Street</string>
+
+    <string name="elevationLabel">Elevation:</string>
+    <string name="elevationHintText">Enter Elevation</string>
+
+    <string name="latitudeLabel">Latitude:</string>
+    <string name="latitudeHintText">Enter Latitude</string>
+
+    <string name="longitudeLabel">Longitude:</string>
+    <string name="longitudeHintText">Enter Longitude</string>
+
+    <string name="mainButtonText">ENTER</string>
+
+
 </resources>
