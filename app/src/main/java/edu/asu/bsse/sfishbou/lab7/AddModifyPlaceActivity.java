@@ -3,6 +3,7 @@ package edu.asu.bsse.sfishbou.lab7;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -51,8 +52,42 @@ public class AddModifyPlaceActivity extends AppCompatActivity {
 
     }
 
+    public void addPlaceToDB(String nameVal, String descVal, String categoryVal, String addressTitleVal,
+                             String addressStreetVal, float elevationVal, float latVal, float longVal){
+        try{
+            PlacesDB db = new PlacesDB((Context)this);
+        }
+    }
+
+    public void modifyPlaceToDB(String nameVal, String descVal, String categoryVal, String addressTitleVal,
+                             String addressStreetVal, float elevationVal, float latVal, float longVal){
+
+    }
+
     public void mainButton_OnClick(View view){
         android.util.Log.w(this.getClass().getSimpleName(), "Main Button Clicked");
+
+        //Get the values
+        String nameVal = name.getText().toString();
+        String descVal = description.getText().toString();
+        String categoryVal = category.getText().toString();
+        String addressTitleVal = addressTitle.getText().toString();
+        String addressStreetVal = addressStreet.getText().toString();
+        float elevationVal = Float.parseFloat(elevation.getText().toString());
+        float latVal = Float.parseFloat(latitude.getText().toString());
+        float longVal = Float.parseFloat(longitude.getText().toString());
+
+        //Add or Modify the database with the values
+        if(type){
+            addPlaceToDB(nameVal, descVal, categoryVal, addressTitleVal,
+                    addressStreetVal, elevationVal, latVal, longVal);
+        }
+        else{
+
+        }
+
+        //Go back to the main screen
+        finish();
 
     }
 }
