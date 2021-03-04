@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,22 +29,33 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        places_Spinner = (Spinner) findViewById(R.id.places_Spinner);
         placesList = new ArrayList<String>();
 
-        //DELETE THIS
-        placesList.add("ASU WEST");
-        placesList.add("POLY");
-        // DELETE THIS
+        init();
+    }
 
-        //Places Spinner Initialization
-        places_Spinner = (Spinner) findViewById(R.id.places_Spinner);
+    public void init(){
+        //Call DB to get list of places
+        try{
+            PlacesDB db = new PlacesDB((Context)this);
+            SQLiteDatabase placesDB = db.openDB();
+            Cursor cur = placesDB.rawQuery("select name from places;", new String[]{});
+
+            while(cur.moveToNext()){
+                placesList.add(cur.getString(0));
+            }
+            cur.close();
+            placesDB.close();
+            db.close();
+        }catch(Exception ex){
+            android.util.Log.w(this.getClass().getSimpleName(), "init(): Error getting data from database");
+        }
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, placesList);
         places_Spinner.setAdapter(adapter);
         places_Spinner.setOnItemSelectedListener(this);
-
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         android.util.Log.d(this.getClass().getSimpleName(), "called onCreateOptionsMenu()");
@@ -57,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case R.id.action_addPlace:
                 // User chose the "Settings" item, show the app settings UI...
                 android.util.Log.d(this.getClass().getSimpleName(), "Add clicked");
-                PlacesDB db = new PlacesDB((Context)this);
+                //Intent intent = new Intent(this, AddPlaceActivity.class);
                 return true;
 
             case R.id.action_modifyPlace:
