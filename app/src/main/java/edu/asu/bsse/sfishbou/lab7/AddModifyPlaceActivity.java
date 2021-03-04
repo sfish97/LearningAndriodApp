@@ -3,8 +3,11 @@ package edu.asu.bsse.sfishbou.lab7;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -56,12 +59,45 @@ public class AddModifyPlaceActivity extends AppCompatActivity {
                              String addressStreetVal, float elevationVal, float latVal, float longVal){
         try{
             PlacesDB db = new PlacesDB((Context)this);
+            SQLiteDatabase placesDB = db.openDB();
+
+            ContentValues values = new ContentValues();
+            values.put("name", nameVal);
+            placesDB.insert("places", null, values);
+            placesDB.close();
+            db.close();
+
+            checkDB();
+            android.util.Log.w(this.getClass().getSimpleName(), "addPlaceToDB(...): Added place to DB");
+        }catch(Exception e){
+            android.util.Log.w(this.getClass().getSimpleName(), "addPlaceToDB(...): ERROR ADDING PLACE TO DB");
         }
     }
 
     public void modifyPlaceToDB(String nameVal, String descVal, String categoryVal, String addressTitleVal,
                              String addressStreetVal, float elevationVal, float latVal, float longVal){
 
+    }
+
+    public void checkDB(){
+        try{
+            PlacesDB db = new PlacesDB((Context)this);
+            SQLiteDatabase placesDB = db.openDB();
+            Cursor cur = placesDB.rawQuery("select * from places;", new String[]{});
+
+            String name = "";
+            while (cur.moveToNext()){
+                name = cur.getString(0);
+                android.util.Log.w(this.getClass().getSimpleName(), "Place value: " + name);
+            }
+            cur.close();
+            placesDB.close();
+            db.close();
+
+
+        }catch(Exception e){
+            android.util.Log.w(this.getClass().getSimpleName(), "checkDB(...): ERROR CHECKING PLACES IN DB");
+        }
     }
 
     public void mainButton_OnClick(View view){
