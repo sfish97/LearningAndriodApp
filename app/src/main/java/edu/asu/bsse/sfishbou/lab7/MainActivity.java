@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private ArrayList<String> placesList;
     private String selectedPlace;
 
+    private boolean type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         places_Spinner = (Spinner) findViewById(R.id.places_Spinner);
         placesList = new ArrayList<String>();
-
+        
         init();
     }
 
@@ -69,14 +70,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case R.id.action_addPlace:
                 // User chose the "Settings" item, show the app settings UI...
                 android.util.Log.d(this.getClass().getSimpleName(), "Add clicked");
-                Intent intent = new Intent(this, AddModifyPlaceActivity.class);
-                startActivity(intent);
+
+                type = true;
+                Intent addIntent = new Intent(this, AddModifyPlaceActivity.class);
+                addIntent.putExtra("TYPE", type);
+                startActivity(addIntent);
                 return true;
 
             case R.id.action_modifyPlace:
                 // User chose the "Favorite" action, mark the current item
                 // as a favorite...
                 android.util.Log.d(this.getClass().getSimpleName(), "Modify clicked");
+
+                type = false;
+                Intent modifyIntent = new Intent(this, AddModifyPlaceActivity.class);
+                modifyIntent.putExtra("TYPE", type);
+                startActivity(modifyIntent);
+
                 return true;
 
             case R.id.action_deletePlace:
