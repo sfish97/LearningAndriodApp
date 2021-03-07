@@ -213,6 +213,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
+    public void viewPlaceDescription_onClick(View view){
+        android.util.Log.w(this.getClass().getSimpleName(), "View Place Description Button Clicked");
+    }
+
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         deletePlace();

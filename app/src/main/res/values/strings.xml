@@ -3,6 +3,7 @@
 
     <!-- Main Activity String -->
     <string name="select_placesTV">Select a Place:</string>
+    <string name="viewDescriptionBTN">View Place Description</string>
 
     <!-- Main Activity App Bar -->
     <string name="action_addPlace">Add Place</string>
@@ -34,6 +35,7 @@
     <string name="longitudeLabel">Longitude:</string>
     <string name="longitudeHintText">Enter Longitude</string>
 
+    <!-- Delete Dialog Strings -->
     <string name="errorText">All Boxes Must Be Filled</string>
     <string name="deleteDialogMessage">Are you sure you want to delete this place?</string>
     <string name="deleteDialogPositive">OK</string>
