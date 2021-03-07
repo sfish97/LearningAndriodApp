@@ -68,10 +68,7 @@ public class AddModifyPlaceActivity extends AppCompatActivity {
             this.name.setEnabled(false);
             fillTheBoxes();
         }
-
-
     }
-
 
     public void fillTheBoxes(){
         try{

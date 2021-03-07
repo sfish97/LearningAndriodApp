@@ -2,6 +2,7 @@ package edu.asu.bsse.sfishbou.lab7;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private String selectedPlace;
 
     private boolean type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         places_Spinner.setAdapter(adapter);
         places_Spinner.setOnItemSelectedListener(this);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         android.util.Log.d(this.getClass().getSimpleName(), "called onCreateOptionsMenu()");
@@ -88,11 +91,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 modifyIntent.putExtra("TYPE", type);
                 modifyIntent.putExtra("SELECTED_PLACE", selectedPlace);
                 startActivity(modifyIntent);
-
                 return true;
 
             case R.id.action_deletePlace:
                 android.util.Log.d(this.getClass().getSimpleName(), "Delete clicked");
+                deletePlace();
                 return true;
             default:
                 // If we got here, the user's action was not recognized.
@@ -100,6 +103,24 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    public void deletePlace(){
+        String delete1 = "delete from places where name=?;";
+        String delete2 = "delete from placeDescription where name=?;";
+        try{
+            PlacesDB db = new PlacesDB((Context)this);
+            SQLiteDatabase placesDB = db.openDB();
+            placesDB.execSQL(delete1, new String[]{selectedPlace});
+            placesDB.execSQL(delete2, new String[]{selectedPlace});
+            placesDB.close();
+            db.close();
+        }catch(Exception e){
+            android.util.Log.w(this.getClass().getSimpleName(), "deletePlace()...ERROR DELETEING");
+        }
+        init();
+        checkDB();
+
     }
 
     // AdapterView.OnItemSelectedListener method. Called when spinner selection Changes
@@ -125,6 +146,66 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         init();
 
         android.util.Log.d(getClass().getSimpleName(), "onResume()");
+    }
+
+
+    public void checkDB(){
+        try{
+            PlacesDB db = new PlacesDB((Context)this);
+            SQLiteDatabase placesDB = db.openDB();
+            Cursor cur = placesDB.rawQuery("select * from places;", new String[]{});
+
+            String name = "";
+            while (cur.moveToNext()){
+                name = cur.getString(0);
+                android.util.Log.w(this.getClass().getSimpleName(), "Place value: " + name);
+            }
+            cur.close();
+            placesDB.close();
+            db.close();
+        }catch(Exception e){
+            android.util.Log.w(this.getClass().getSimpleName(), "checkDB(...): ERROR CHECKING PLACES IN DB");
+        }
+
+        try{
+            PlacesDB db = new PlacesDB((Context)this);
+            SQLiteDatabase placesDB = db.openDB();
+            Cursor cur = placesDB.rawQuery("select name,description,category,addressTitle,addressStreet,elevation,latitude,longitude from placeDescription;", new String[]{});
+
+            String namey = "";
+            String desc = "";
+            String cate = "";
+            String titl = "";
+            String stre = "";
+            String elev = "";
+            String lati = "";
+            String logf = "";
+            while (cur.moveToNext()){
+                namey = cur.getString(0);
+                desc = cur.getString(1);
+                cate = cur.getString(2);
+                titl = cur.getString(3);
+                stre = cur.getString(4);
+                elev = cur.getString(5);
+                lati = cur.getString(6);
+                logf = cur.getString(7);
+                android.util.Log.w(this.getClass().getSimpleName(), "***************");
+                android.util.Log.w(this.getClass().getSimpleName(), "Name: " + namey);
+                android.util.Log.w(this.getClass().getSimpleName(), "Desc: " + desc);
+                android.util.Log.w(this.getClass().getSimpleName(), "Cate: " + cate);
+                android.util.Log.w(this.getClass().getSimpleName(), "Title: " + titl);
+                android.util.Log.w(this.getClass().getSimpleName(), "Street: " + stre);
+                android.util.Log.w(this.getClass().getSimpleName(), "Ele: " + elev);
+                android.util.Log.w(this.getClass().getSimpleName(), "Lat: " + lati);
+                android.util.Log.w(this.getClass().getSimpleName(), "Long: " + logf);
+                android.util.Log.w(this.getClass().getSimpleName(), "***************");
+            }
+            cur.close();
+            placesDB.close();
+            db.close();
+        }catch(Exception e){
+            android.util.Log.w(this.getClass().getSimpleName(), "checkDB(...): ERROR CHECKING PLACES IN DB");
+        }
     }
 
 }
