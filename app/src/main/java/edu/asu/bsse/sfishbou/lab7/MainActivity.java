@@ -1,6 +1,8 @@
 package edu.asu.bsse.sfishbou.lab7;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -18,7 +20,7 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DeleteDialogFragment.DeleteDialogListener{
 
     private Spinner places_Spinner;
     private ArrayList<String> placesList;
@@ -95,7 +97,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             case R.id.action_deletePlace:
                 android.util.Log.d(this.getClass().getSimpleName(), "Delete clicked");
-                deletePlace();
+
+                DialogFragment deleteDialog = new DeleteDialogFragment();
+                deleteDialog.show(getSupportFragmentManager(), "DeleteDialog");
+
                 return true;
             default:
                 // If we got here, the user's action was not recognized.
@@ -208,4 +213,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        deletePlace();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) { }
 }
