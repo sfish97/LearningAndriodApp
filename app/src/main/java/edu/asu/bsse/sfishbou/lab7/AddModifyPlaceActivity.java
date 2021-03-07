@@ -118,9 +118,26 @@ public class AddModifyPlaceActivity extends AppCompatActivity {
                              String addressStreetVal, float elevationVal, float latVal, float longVal){
 
         try{
+            PlacesDB db = new PlacesDB((Context)this);
+            SQLiteDatabase placesDB = db.openDB();
 
+            //Update the table
+            ContentValues values = new ContentValues();
+            values.put("name", nameVal);
+            values.put("description", descVal);
+            values.put("category", categoryVal);
+            values.put("addressTitle", addressTitleVal);
+            values.put("addressStreet", addressStreetVal);
+            values.put("elevation", elevationVal);
+            values.put("latitude", latVal);
+            values.put("longitude", longVal);
+
+            placesDB.update("placeDescription", values, "name=?", new String[]{this.name.getText().toString()});
+
+            placesDB.close();
+            db.close();
         }catch(Exception ex){
-
+            android.util.Log.w(this.getClass().getSimpleName(), "addPlaceToDB(...): ERROR MODIFYING PLACE TO DB");
         }
     }
 
