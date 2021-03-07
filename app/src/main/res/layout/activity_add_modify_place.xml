@@ -256,4 +256,17 @@
         app:layout_constraintStart_toEndOf="@+id/longitudeLabel"
         app:layout_constraintTop_toBottomOf="@+id/latitude_EditTextBox" />
 
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:text="@string/errorText"
+        android:textColor="#FF0000"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/mainButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

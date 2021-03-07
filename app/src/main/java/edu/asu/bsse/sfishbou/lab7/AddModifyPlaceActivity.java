@@ -8,10 +8,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.opengl.Visibility;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class AddModifyPlaceActivity extends AppCompatActivity {
 
@@ -23,10 +26,14 @@ public class AddModifyPlaceActivity extends AppCompatActivity {
     private EditText elevation;
     private EditText latitude;
     private EditText longitude;
-    private Button mainButton;
+    private TextView errorText;
 
+    private EditText[] allBoxes;
+
+    private Button mainButton;
     private String selectedPlace;
     private boolean type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +51,14 @@ public class AddModifyPlaceActivity extends AppCompatActivity {
         this.latitude = (EditText)findViewById(R.id.latitude_EditTextBox);
         this.longitude = (EditText)findViewById(R.id.longitude_EditTextBox);
         this.mainButton = (Button)findViewById(R.id.mainButton);
+        this.errorText = (TextView)findViewById(R.id.errorText);
 
         this.selectedPlace = intent.getExtras().getString("SELECTED_PLACE");
+        this.errorText.setVisibility(View.INVISIBLE);
+
+        allBoxes = new EditText[]{name, description, category, addressTitle, addressStreet,
+                elevation, latitude, longitude};
+
         if(type){ //Adding
             this.mainButton.setText("Add Place");
         }
@@ -55,6 +68,7 @@ public class AddModifyPlaceActivity extends AppCompatActivity {
             this.name.setEnabled(false);
             fillTheBoxes();
         }
+
 
     }
 
@@ -202,6 +216,13 @@ public class AddModifyPlaceActivity extends AppCompatActivity {
 
     public void mainButton_OnClick(View view){
         android.util.Log.w(this.getClass().getSimpleName(), "Main Button Clicked");
+
+        for(int i = 0; i < allBoxes.length; i++){
+            if(allBoxes[i].getText().toString().isEmpty()){
+                this.errorText.setVisibility(View.VISIBLE);
+                return;
+            }
+        }
 
         //Get the values
         String nameVal = name.getText().toString();
