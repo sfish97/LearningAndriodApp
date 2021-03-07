@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
 
         places_Spinner = (Spinner) findViewById(R.id.places_Spinner);
-        placesList = new ArrayList<String>();
+
 
         init();
     }
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             SQLiteDatabase placesDB = db.openDB();
             Cursor cur = placesDB.rawQuery("select name from places;", new String[]{});
 
+            placesList = new ArrayList<String>();
             while(cur.moveToNext()){
                 placesList.add(cur.getString(0));
             }
@@ -114,6 +115,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onNothingSelected(AdapterView<?> parent) {
         android.util.Log.d(this.getClass().getSimpleName(),"In onNothingSelected: No item selected");
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        //Re-fill the spinner
+        init();
+
+        android.util.Log.d(getClass().getSimpleName(), "onResume()");
     }
 
 }

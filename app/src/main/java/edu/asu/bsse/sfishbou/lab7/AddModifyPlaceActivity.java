@@ -121,9 +121,7 @@ public class AddModifyPlaceActivity extends AppCompatActivity {
         else{
 
         }
-
         //Go back to the main screen
         finish();
-
     }
 }
