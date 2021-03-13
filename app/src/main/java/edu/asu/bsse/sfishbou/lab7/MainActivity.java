@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +31,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private TextView secondPlace_TextView;
     private Spinner secondPlaces_Spinner;
 
+    private TextView distanceText_TextView,
+                     distanceValue_TextView,
+                     initalHeadingText_TextView,
+                     initalHeadingValue_TextView;
+
     private ArrayList<String> placesList;
     private String selectedPlace;
     private String selectedSecondPlace;
@@ -45,12 +51,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         secondPlaces_Spinner = findViewById(R.id.secondPlaces_Spinner);
         calcDistance_CheckBox = findViewById(R.id.calcGreatDistance);
         secondPlace_TextView = findViewById(R.id.selectSecondPlace_TextView);
+        distanceText_TextView = findViewById(R.id.distanceText_TextView);
+        distanceValue_TextView = findViewById(R.id.distanceValue_TextView);
+        initalHeadingText_TextView = findViewById(R.id.initalHeadingText_TextView);
+        initalHeadingValue_TextView = findViewById(R.id.initialHeadingValue_TextView);
 
         //Hide the Second TextView/Spinner
-        secondPlace_TextView.setVisibility(View.INVISIBLE);
-        secondPlaces_Spinner.setVisibility(View.INVISIBLE);
-
-
+        switchCalcViews(false);
         init();
     }
 
@@ -255,12 +262,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         boolean isChecked = ((CheckBox) view).isChecked();
 
         if(isChecked){
-            secondPlace_TextView.setVisibility(View.VISIBLE);
-            secondPlaces_Spinner.setVisibility(View.VISIBLE);
+            switchCalcViews(true);
         }
         else{
-            secondPlace_TextView.setVisibility(View.INVISIBLE);
-            secondPlaces_Spinner.setVisibility(View.INVISIBLE);
+            switchCalcViews(false);
         }
+    }
+
+    public void switchCalcViews(boolean val){
+        int type = val ? View.VISIBLE : View.INVISIBLE;
+
+        secondPlace_TextView.setVisibility(type);
+        secondPlaces_Spinner.setVisibility(type);
+        distanceText_TextView.setVisibility(type);
+        distanceValue_TextView.setVisibility(type);
+        initalHeadingText_TextView.setVisibility(type);
+        initalHeadingValue_TextView.setVisibility(type);
+
     }
 }
