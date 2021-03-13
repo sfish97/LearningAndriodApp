@@ -249,4 +249,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) { }
+
+    public void onCheckBoxClicked(View view){
+        //Get if the view is checked
+        boolean isChecked = ((CheckBox) view).isChecked();
+
+        if(isChecked){
+            secondPlace_TextView.setVisibility(View.VISIBLE);
+            secondPlaces_Spinner.setVisibility(View.VISIBLE);
+        }
+        else{
+            secondPlace_TextView.setVisibility(View.INVISIBLE);
+            secondPlaces_Spinner.setVisibility(View.INVISIBLE);
+        }
+    }
 }
