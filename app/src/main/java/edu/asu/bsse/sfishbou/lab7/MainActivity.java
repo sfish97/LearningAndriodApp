@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -23,9 +24,13 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DeleteDialogFragment.DeleteDialogListener{
 
     private Spinner places_Spinner;
+    private Spinner secondPlaces_Spinner;
+
     private ArrayList<String> placesList;
     private String selectedPlace;
+    private String selectedSecondPlace;
 
+    private CheckBox calcDistance_CheckBox;
     private boolean type;
 
     @Override
@@ -33,8 +38,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        places_Spinner = (Spinner) findViewById(R.id.places_Spinner);
-
+        places_Spinner = findViewById(R.id.places_Spinner);
+        secondPlaces_Spinner = findViewById(R.id.secondPlaces_Spinner);
+        calcDistance_CheckBox = findViewById(R.id.calcGreatDistance);
 
         init();
     }
@@ -42,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void init(){
         //Call DB to get list of places
         try{
-            PlacesDB db = new PlacesDB((Context)this);
+            PlacesDB db = new PlacesDB(this);
             SQLiteDatabase placesDB = db.openDB();
             Cursor cur = placesDB.rawQuery("select name from places;", new String[]{});
 
@@ -59,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, placesList);
         places_Spinner.setAdapter(adapter);
+        places_Spinner.setOnItemSelectedListener(this);
+
+        secondPlaces_Spinner.setAdapter(adapter);
         places_Spinner.setOnItemSelectedListener(this);
     }
 
@@ -131,9 +140,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     // AdapterView.OnItemSelectedListener method. Called when spinner selection Changes
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        selectedPlace = places_Spinner.getSelectedItem().toString();
-        android.util.Log.d(this.getClass().getSimpleName(),"Spinner item "+
-                places_Spinner.getSelectedItem().toString() + " selected.");
+        if(parent.getId() == R.id.places_Spinner){
+            selectedPlace = places_Spinner.getSelectedItem().toString();
+        }
+        else{
+            selectedSecondPlace = secondPlaces_Spinner.getSelectedItem().toString();
+        }
     }
 
     // AdapterView.OnItemSelectedListener method. Called when spinner selection Changes

@@ -9,6 +9,7 @@
     <string name="action_addPlace">Add Place</string>
     <string name="action_modifyPlace">Modify Place</string>
     <string name="action_deletePlace">Delete Place</string>
+    <string name="calculate_distance_checkbox_text">Calculate Great Circle Distance</string>
 
     <!-- Add/Modify Place Activity Strings -->
     <string name="nameLabel">Name:</string>
