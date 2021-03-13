@@ -1,6 +1,7 @@
 package edu.asu.bsse.sfishbou.lab7;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -28,6 +29,10 @@ public class ViewDescriptionActivity extends AppCompatActivity {
 
         this.placeDescriptionList = getResources().getStringArray(R.array.descriptionList);
         this.placeValues = getPlaceValuesFromDB();
+
+        MyRecyclerAdapter recyclerAdapter = new MyRecyclerAdapter(this, placeDescriptionList, placeValues);
+        recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
 
