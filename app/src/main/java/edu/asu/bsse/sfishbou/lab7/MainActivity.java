@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private CheckBox calcDistance_CheckBox;
     private TextView secondPlace_TextView;
     private Spinner secondPlaces_Spinner;
+    private Button viewDescription_Button;
 
     private TextView distanceText_TextView,
                      distanceValue_TextView,
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private String selectedSecondPlace;
 
     private boolean type;
+    private boolean isCalcSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +58,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         distanceValue_TextView = findViewById(R.id.distanceValue_TextView);
         initalHeadingText_TextView = findViewById(R.id.initalHeadingText_TextView);
         initalHeadingValue_TextView = findViewById(R.id.initialHeadingValue_TextView);
+        viewDescription_Button = findViewById(R.id.viewPlace_Button);
+        isCalcSelected = false;
 
         //Hide the Second TextView/Spinner
-        switchCalcViews(false);
+        switchCalcViews();
         init();
     }
 
@@ -84,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         places_Spinner.setOnItemSelectedListener(this);
 
         secondPlaces_Spinner.setAdapter(adapter);
-        places_Spinner.setOnItemSelectedListener(this);
+        secondPlaces_Spinner.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -153,18 +158,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    int test1, test2;
     // AdapterView.OnItemSelectedListener method. Called when spinner selection Changes
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if(parent.getId() == R.id.places_Spinner){
             selectedPlace = places_Spinner.getSelectedItem().toString();
+            android.util.Log.w(this.getClass().getSimpleName(), "FIRST ITEM IS " + places_Spinner.getSelectedItem().toString());
         }
-        else{
+        if(parent.getId() == R.id.secondPlaces_Spinner){
             selectedSecondPlace = secondPlaces_Spinner.getSelectedItem().toString();
+            android.util.Log.w(this.getClass().getSimpleName(), "SECOND ITEM IS " + secondPlaces_Spinner.getSelectedItem().toString());
         }
+
+        if(isCalcSelected){
+            calculateGreatDistance();
+        }
+
     }
 
-    // AdapterView.OnItemSelectedListener method. Called when spinner selection Changes
+
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         android.util.Log.d(this.getClass().getSimpleName(),"In onNothingSelected: No item selected");
@@ -259,18 +272,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void onCheckBoxClicked(View view){
         //Get if the view is checked
-        boolean isChecked = ((CheckBox) view).isChecked();
+        isCalcSelected = ((CheckBox) view).isChecked();
 
-        if(isChecked){
-            switchCalcViews(true);
+        if(isCalcSelected){
+            calculateGreatDistance();
+            viewDescription_Button.setEnabled(false);
         }
         else{
-            switchCalcViews(false);
+            viewDescription_Button.setEnabled(true);
         }
+        switchCalcViews();
     }
 
-    public void switchCalcViews(boolean val){
-        int type = val ? View.VISIBLE : View.INVISIBLE;
+    public void switchCalcViews(){
+        int type = isCalcSelected ? View.VISIBLE : View.INVISIBLE;
 
         secondPlace_TextView.setVisibility(type);
         secondPlaces_Spinner.setVisibility(type);
@@ -278,6 +293,53 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         distanceValue_TextView.setVisibility(type);
         initalHeadingText_TextView.setVisibility(type);
         initalHeadingValue_TextView.setVisibility(type);
+    }
+
+    public void calculateGreatDistance(){
+        String distance = 120 + "m";
+        String heading = "24, 34, 34";
+
+        double earthRadius = 6371e3;
+        float[] latAndLong1; //[latitude1, longitude1]
+        float[] latAndLong2; //[latitude2, longitude2]
+
+
+        latAndLong1 = getLatAndLong(1);
+        latAndLong2 = getLatAndLong(2);
+        android.util.Log.w(this.getClass().getSimpleName(), "Values "+ this.selectedPlace + '\n' + latAndLong1[0] + '\n' + latAndLong1[1] + '\n' + this.selectedSecondPlace + '\n' + latAndLong2[0] + '\n' + latAndLong2[1] + '\n');
+        distanceValue_TextView.setText(distance);
+        initalHeadingValue_TextView.setText(heading);
+    }
+
+    public float[] getLatAndLong(int indicator){
+        float[] values = new float[2];
+
+        String place;
+        if(indicator == 1){
+            place = selectedPlace;
+        }
+        else{
+            place = selectedSecondPlace;
+        }
+
+        //Get the lat and long of the
+        try{
+            PlacesDB db = new PlacesDB((Context)this);
+            SQLiteDatabase placesDB = db.openDB();
+            Cursor cur = placesDB.rawQuery("select latitude,longitude from placeDescription where name=?;", new String[]{place});
+
+            while (cur.moveToNext()){
+                values[0] = cur.getFloat(0);
+                values[1] = cur.getFloat(1);
+            }
+            cur.close();
+            placesDB.close();
+            db.close();
+        }catch(Exception e){
+            android.util.Log.w(this.getClass().getSimpleName(), "checkDB(...): ERROR CHECKING PLACES IN DB");
+        }
+
+        return values;
 
     }
 }
