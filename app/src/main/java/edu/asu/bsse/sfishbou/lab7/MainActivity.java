@@ -18,19 +18,22 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DeleteDialogFragment.DeleteDialogListener{
 
     private Spinner places_Spinner;
+
+    private CheckBox calcDistance_CheckBox;
+    private TextView secondPlace_TextView;
     private Spinner secondPlaces_Spinner;
 
     private ArrayList<String> placesList;
     private String selectedPlace;
     private String selectedSecondPlace;
 
-    private CheckBox calcDistance_CheckBox;
     private boolean type;
 
     @Override
@@ -41,6 +44,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         places_Spinner = findViewById(R.id.places_Spinner);
         secondPlaces_Spinner = findViewById(R.id.secondPlaces_Spinner);
         calcDistance_CheckBox = findViewById(R.id.calcGreatDistance);
+        secondPlace_TextView = findViewById(R.id.selectSecondPlace_TextView);
+
+        //Hide the Second TextView/Spinner
+        secondPlace_TextView.setVisibility(View.INVISIBLE);
+        secondPlaces_Spinner.setVisibility(View.INVISIBLE);
+
 
         init();
     }
