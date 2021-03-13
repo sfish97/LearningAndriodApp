@@ -41,5 +41,17 @@
     <string name="deleteDialogPositive">OK</string>
     <string name="deleteDialogNegative">Cancel</string>
 
+    <!-- View Description String -->
+    <string-array name="descriptionList">
+        <item>Name</item>
+        <item>Description</item>
+        <item>Category</item>
+        <item>Address Title</item>
+        <item>Address Street</item>
+        <item>Elevation</item>
+        <item>Latitude</item>
+        <item>Longitude</item>
+    </string-array>
+
 
 </resources>

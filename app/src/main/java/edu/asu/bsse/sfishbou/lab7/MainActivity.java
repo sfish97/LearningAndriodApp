@@ -215,6 +215,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void viewPlaceDescription_onClick(View view){
         android.util.Log.w(this.getClass().getSimpleName(), "View Place Description Button Clicked");
+
+        Intent intent = new Intent(this, ViewDescriptionActivity.class);
+        intent.putExtra("SELECTED_PLACE", selectedPlace);
+        startActivity(intent);
     }
 
     @Override
