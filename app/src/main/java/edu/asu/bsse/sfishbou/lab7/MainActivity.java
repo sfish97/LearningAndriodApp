@@ -299,20 +299,32 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         String distance = 120 + "m";
         String heading = "24, 34, 34";
 
+
+        double[] latAndLong1 = getLatAndLong(1); //[latitude1, longitude1]
+        double[] latAndLong2 = getLatAndLong(2);; //[latitude2, longitude2]
+
         double earthRadius = 6371e3;
-        float[] latAndLong1; //[latitude1, longitude1]
-        float[] latAndLong2; //[latitude2, longitude2]
+        double latRadian1 = latAndLong1[0] * Math.PI/180;
+        double latRadian2 = latAndLong2[0] * Math.PI/180;
+        double changeLat = (latAndLong2[0] - latAndLong1[0]) * Math.PI/180;
+        double changeLong = (latAndLong2[1] - latAndLong1[1]) * Math.PI/180;
 
+        double a = Math.sin(changeLat/2) * Math.sin(changeLat/2) +
+                    Math.cos(latRadian1) * Math.cos(latRadian2) *
+                            Math.sin(changeLong/2) * Math.sin(changeLong/2);
 
-        latAndLong1 = getLatAndLong(1);
-        latAndLong2 = getLatAndLong(2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        int distanceVal = (int)(earthRadius * c);
+
         android.util.Log.w(this.getClass().getSimpleName(), "Values "+ this.selectedPlace + '\n' + latAndLong1[0] + '\n' + latAndLong1[1] + '\n' + this.selectedSecondPlace + '\n' + latAndLong2[0] + '\n' + latAndLong2[1] + '\n');
-        distanceValue_TextView.setText(distance);
+        android.util.Log.w(this.getClass().getSimpleName(), "DISTANCE: "+ distanceVal);
+        distanceValue_TextView.setText(String.valueOf(distanceVal).toString() + " meters");
         initalHeadingValue_TextView.setText(heading);
     }
 
-    public float[] getLatAndLong(int indicator){
-        float[] values = new float[2];
+    public double[] getLatAndLong(int indicator){
+        double[] values = new double[2];
 
         String place;
         if(indicator == 1){
@@ -329,8 +341,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Cursor cur = placesDB.rawQuery("select latitude,longitude from placeDescription where name=?;", new String[]{place});
 
             while (cur.moveToNext()){
-                values[0] = cur.getFloat(0);
-                values[1] = cur.getFloat(1);
+                values[0] = cur.getDouble(0);
+                values[1] = cur.getDouble(1);
             }
             cur.close();
             placesDB.close();

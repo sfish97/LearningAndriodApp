@@ -12,8 +12,8 @@ CREATE TABLE placeDescription(
     addressTitle TEXT,
     addressStreet TEXT,
     elevation FLOAT,
-    latitude FLOAT,
-	longitude FLOAT,
+    latitude DOUBLE,
+	longitude DOUBLE,
     FOREIGN KEY(name) REFERENCES places(name) ON DELETE CASCADE
 );
 

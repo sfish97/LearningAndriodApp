@@ -95,7 +95,7 @@ public class AddModifyPlaceActivity extends AppCompatActivity {
     }
 
     public void addPlaceToDB(String nameVal, String descVal, String categoryVal, String addressTitleVal,
-                             String addressStreetVal, float elevationVal, float latVal, float longVal){
+                             String addressStreetVal, float elevationVal, double latVal, double longVal){
         try{
             PlacesDB db = new PlacesDB((Context)this);
             SQLiteDatabase placesDB = db.openDB();
@@ -126,7 +126,7 @@ public class AddModifyPlaceActivity extends AppCompatActivity {
     }
 
     public void modifyPlaceToDB(String nameVal, String descVal, String categoryVal, String addressTitleVal,
-                             String addressStreetVal, float elevationVal, float latVal, float longVal){
+                             String addressStreetVal, float elevationVal, double latVal, double longVal){
 
         try{
             PlacesDB db = new PlacesDB((Context)this);
@@ -228,8 +228,8 @@ public class AddModifyPlaceActivity extends AppCompatActivity {
         String addressTitleVal = addressTitle.getText().toString();
         String addressStreetVal = addressStreet.getText().toString();
         float elevationVal = Float.parseFloat(elevation.getText().toString());
-        float latVal = Float.parseFloat(latitude.getText().toString());
-        float longVal = Float.parseFloat(longitude.getText().toString());
+        double latVal = Double.parseDouble(latitude.getText().toString());
+        double longVal = Double.parseDouble(longitude.getText().toString());
 
         //Add or Modify the database with the values
         if(type){
