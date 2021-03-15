@@ -142,6 +142,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu (Menu menu) {
+        menu.findItem(R.id.action_addPlace).setEnabled(!isCalcSelected);
+        menu.findItem(R.id.action_modifyPlace).setEnabled(!isCalcSelected);
+        menu.findItem(R.id.action_deletePlace).setEnabled(!isCalcSelected);
+
+        return true;
+    }
+
     public void deletePlace(){
         String delete1 = "delete from places where name=?;";
         String delete2 = "delete from placeDescription where name=?;";
@@ -156,11 +165,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             android.util.Log.w(this.getClass().getSimpleName(), "deletePlace()...ERROR DELETEING");
         }
         init();
-        checkDB();
-
     }
 
-    int test1, test2;
+
     // AdapterView.OnItemSelectedListener method. Called when spinner selection Changes
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -179,11 +186,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         android.util.Log.d(this.getClass().getSimpleName(),"In onNothingSelected: No item selected");
-
     }
 
     @Override
@@ -194,66 +199,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         init();
 
         android.util.Log.d(getClass().getSimpleName(), "onResume()");
-    }
-
-
-    public void checkDB(){
-        try{
-            PlacesDB db = new PlacesDB((Context)this);
-            SQLiteDatabase placesDB = db.openDB();
-            Cursor cur = placesDB.rawQuery("select * from places;", new String[]{});
-
-            String name = "";
-            while (cur.moveToNext()){
-                name = cur.getString(0);
-                android.util.Log.w(this.getClass().getSimpleName(), "Place value: " + name);
-            }
-            cur.close();
-            placesDB.close();
-            db.close();
-        }catch(Exception e){
-            android.util.Log.w(this.getClass().getSimpleName(), "checkDB(...): ERROR CHECKING PLACES IN DB");
-        }
-
-        try{
-            PlacesDB db = new PlacesDB((Context)this);
-            SQLiteDatabase placesDB = db.openDB();
-            Cursor cur = placesDB.rawQuery("select name,description,category,addressTitle,addressStreet,elevation,latitude,longitude from placeDescription;", new String[]{});
-
-            String namey = "";
-            String desc = "";
-            String cate = "";
-            String titl = "";
-            String stre = "";
-            String elev = "";
-            String lati = "";
-            String logf = "";
-            while (cur.moveToNext()){
-                namey = cur.getString(0);
-                desc = cur.getString(1);
-                cate = cur.getString(2);
-                titl = cur.getString(3);
-                stre = cur.getString(4);
-                elev = cur.getString(5);
-                lati = cur.getString(6);
-                logf = cur.getString(7);
-                android.util.Log.w(this.getClass().getSimpleName(), "***************");
-                android.util.Log.w(this.getClass().getSimpleName(), "Name: " + namey);
-                android.util.Log.w(this.getClass().getSimpleName(), "Desc: " + desc);
-                android.util.Log.w(this.getClass().getSimpleName(), "Cate: " + cate);
-                android.util.Log.w(this.getClass().getSimpleName(), "Title: " + titl);
-                android.util.Log.w(this.getClass().getSimpleName(), "Street: " + stre);
-                android.util.Log.w(this.getClass().getSimpleName(), "Ele: " + elev);
-                android.util.Log.w(this.getClass().getSimpleName(), "Lat: " + lati);
-                android.util.Log.w(this.getClass().getSimpleName(), "Long: " + logf);
-                android.util.Log.w(this.getClass().getSimpleName(), "***************");
-            }
-            cur.close();
-            placesDB.close();
-            db.close();
-        }catch(Exception e){
-            android.util.Log.w(this.getClass().getSimpleName(), "checkDB(...): ERROR CHECKING PLACES IN DB");
-        }
     }
 
     public void viewPlaceDescription_onClick(View view){
@@ -273,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onDialogNegativeClick(DialogFragment dialog) { }
 
     public void onCheckBoxClicked(View view){
+        invalidateOptionsMenu();
         //Get if the view is checked
         isCalcSelected = ((CheckBox) view).isChecked();
 
