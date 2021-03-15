@@ -3,16 +3,18 @@
 
     <!-- Main Activity String -->
     <string name="select_placesTV">Select a Place:</string>
+    <string name="select_firstPlaceTV">Select Starting Point</string>
+    <string name="select_secondPlacesTV">Select End-Point:</string>
     <string name="viewDescriptionBTN">View Place Description</string>
-
-    <!-- Main Activity App Bar -->
-    <string name="action_addPlace">Add Place</string>
-    <string name="action_modifyPlace">Modify Place</string>
-    <string name="action_deletePlace">Delete Place</string>
     <string name="calculate_distance_checkbox_text">Calculate Great Circle Distance</string>
     <string name="distance_text">Distance:</string>
     <string name="inital_heading_text">Initial Heading:</string>
     <string name="not_defined">Error: Not Defined</string>
+    <!-- Main Activity App Bar -->
+    <string name="action_addPlace">Add Place</string>
+    <string name="action_modifyPlace">Modify Place</string>
+    <string name="action_deletePlace">Delete Place</string>
+
 
     <!-- Add/Modify Place Activity Strings -->
     <string name="nameLabel">Name:</string>

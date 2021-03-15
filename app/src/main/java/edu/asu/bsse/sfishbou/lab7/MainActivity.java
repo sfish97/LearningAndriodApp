@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private Spinner places_Spinner;
 
     private CheckBox calcDistance_CheckBox;
+    private TextView firstPlace_TextView;
     private TextView secondPlace_TextView;
     private Spinner secondPlaces_Spinner;
     private Button viewDescription_Button;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        firstPlace_TextView = findViewById(R.id.selectPlace_TextView);
         places_Spinner = findViewById(R.id.places_Spinner);
         secondPlaces_Spinner = findViewById(R.id.secondPlaces_Spinner);
         calcDistance_CheckBox = findViewById(R.id.calcGreatDistance);
@@ -277,9 +279,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if(isCalcSelected){
             calculateGreatDistance();
             viewDescription_Button.setEnabled(false);
+
+            //Change the `Select a Place` text to Select Starting/End Place
+            firstPlace_TextView.setText(R.string.select_firstPlaceTV);
         }
         else{
             viewDescription_Button.setEnabled(true);
+            firstPlace_TextView.setText(R.string.select_placesTV);
         }
         switchCalcViews();
     }
