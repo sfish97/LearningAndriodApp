@@ -296,31 +296,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void calculateGreatDistance(){
-        String distance = 120 + "m";
-        String heading = "24, 34, 34";
-
-
         double[] latAndLong1 = getLatAndLong(1); //[latitude1, longitude1]
         double[] latAndLong2 = getLatAndLong(2);; //[latitude2, longitude2]
 
-        double earthRadius = 6371e3;
-        double latRadian1 = latAndLong1[0] * Math.PI/180;
-        double latRadian2 = latAndLong2[0] * Math.PI/180;
-        double changeLat = (latAndLong2[0] - latAndLong1[0]) * Math.PI/180;
-        double changeLong = (latAndLong2[1] - latAndLong1[1]) * Math.PI/180;
-
-        double a = Math.sin(changeLat/2) * Math.sin(changeLat/2) +
-                    Math.cos(latRadian1) * Math.cos(latRadian2) *
-                            Math.sin(changeLong/2) * Math.sin(changeLong/2);
-
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-
-        int distanceVal = (int)(earthRadius * c);
+        int distanceVal = getDistance(latAndLong1, latAndLong2);
+        int initialHeading = getInitalHeading(latAndLong1, latAndLong2);
+        String direction = "";
+        if (initialHeading >= 0 && initialHeading < 90)
+            direction = "(N)";
+        else if (initialHeading >= 90 && initialHeading < 180)
+            direction = "(E)";
+        else if(initialHeading >= 180 && initialHeading < 270)
+            direction = "(S)";
+        else if(initialHeading >= 270 && initialHeading < 360)
+            direction = "(W)";
 
         android.util.Log.w(this.getClass().getSimpleName(), "Values "+ this.selectedPlace + '\n' + latAndLong1[0] + '\n' + latAndLong1[1] + '\n' + this.selectedSecondPlace + '\n' + latAndLong2[0] + '\n' + latAndLong2[1] + '\n');
         android.util.Log.w(this.getClass().getSimpleName(), "DISTANCE: "+ distanceVal);
-        distanceValue_TextView.setText(String.valueOf(distanceVal).toString() + " meters");
-        initalHeadingValue_TextView.setText(heading);
+        distanceValue_TextView.setText(distanceVal + " meters.");
+        initalHeadingValue_TextView.setText(initialHeading + "\u00B0" + " " + direction);
     }
 
     public double[] getLatAndLong(int indicator){
@@ -352,6 +346,38 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         return values;
+    }
+
+    public int getDistance(double[] latAndLong1, double[] latAndLong2){
+        double earthRadius = 6371e3;
+        double latRadian1 = latAndLong1[0] * Math.PI/180;
+        double latRadian2 = latAndLong2[0] * Math.PI/180;
+        double changeLat = (latAndLong2[0] - latAndLong1[0]) * Math.PI/180;
+        double changeLong = (latAndLong2[1] - latAndLong1[1]) * Math.PI/180;
+
+        double a = Math.sin(changeLat/2) * Math.sin(changeLat/2) +
+                Math.cos(latRadian1) * Math.cos(latRadian2) *
+                        Math.sin(changeLong/2) * Math.sin(changeLong/2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        return (int)(earthRadius * c);
+    }
+
+    public int getInitalHeading(double[] latAndLong1, double[] latAndLong2){
+        double lat1 = latAndLong1[0] * Math.PI / 180;
+        double lat2 = latAndLong2[0] * Math.PI / 180;
+        double long1 = latAndLong1[1] * Math.PI / 180;
+        double long2 = latAndLong2[1] * Math.PI / 180;
+
+        double changeLong = long2 - long1;
+        double y = Math.sin(changeLong) * Math.cos(lat1);
+        double x = (Math.cos(lat1)*Math.sin(lat2)) -
+                    (Math.sin(lat1)*Math.cos(lat2)*Math.cos(changeLong));
+        double θ = Math.atan2(y, x);
+        double brng = (θ*180/Math.PI + 360) % 360;
+
+        return (int)brng;
 
     }
 }
